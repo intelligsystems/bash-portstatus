@@ -24,7 +24,6 @@ fi
 # HTML version
 if [ "$HTML" = 'yes' ]
 then
-#cat <<- _EOF_ | tee "$HTML_PATH"index.html
 cat <<- _EOF_ > "$HTML_PATH"index.html
 <!DOCTYPE html>
 <html lang="en">
