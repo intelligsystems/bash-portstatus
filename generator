@@ -1,0 +1,117 @@
+#!/bin/bash
+
+# Shell version
+if [ "$SHELL" = 'yes' ]
+then
+        echo '+-- Network monitor --+'
+	i=0
+	while [ $i -lt ${#TH_UNAME[@]} ] 
+	do
+        	echo "+ ${TH_UNAME[$i]} -> ${TD_UNAME[$i]}"
+		i=$[$i+1]
+	done
+
+	# Kernel IP routng table
+	$S_NETSTAT -r
+
+	# Kernel interface table
+	$S_NETSTAT -i
+
+	# Active Internet connections
+	$S_NETSTAT -ltnu
+fi
+
+# HTML version
+if [ "$HTML" = 'yes' ]
+then
+#cat <<- _EOF_ | tee "$HTML_PATH"index.html
+cat <<- _EOF_ > "$HTML_PATH"index.html
+<!DOCTYPE html>
+<html lang="en">
+        <head>
+                <meta charset="utf-8">
+                <meta http-equiv="refresh" content="$RF">
+                <title>Network monitor</title>
+                <style>
+                        body {
+                                margin: 0;
+                                padding: 0;
+                                background-color: white;
+                        }
+                        div, .header {
+                                margin: auto;
+                                width: 90%;
+                                border: 1px solid grey;
+                                padding: 10px;
+                                font-size: 14px;
+                                font-family: verdana;
+                                text-align: left;
+                        }
+                        .header {
+                                width: 100%;
+                                height: 60px;
+                                background-color: brown;
+                                margin-bottom: 10px;
+                        }
+                        h1 {
+                                color: white;
+                        }
+                        p {
+                                font-family: verdana;
+                                font-size: 14px;
+                                text-align: left;
+                        }
+                        table, td, th {
+                                margin: 0;
+                                width: 100%;
+                                padding: 5px;
+                                border-spacing: 0px;
+                                border-collapse: collapse;
+                                text-align: left;
+				white-space: nowrap;
+                        }
+                        td, th {
+                                border: 1px solid grey;
+                        }
+                        th {
+                                background-color: lightgrey;
+                        }
+                </style>
+        </head>
+
+<body>
+        <div class="header">
+                <h1>Network Monitor</h1>
+        </div>
+        <div>
+                <table>
+                        <caption>Machine</caption>
+			<tr>
+				${TH_UNAME_HTML[@]}
+			</tr>
+			<tr>
+				${TD_UNAME_HTML[@]}
+			</tr>
+		</table>
+                <table>
+                        <caption>$CAPTION_NETSTAT_K_HTML</caption>
+                        	${TH_NETSTAT_K_HTML[@]}
+                        	${TD_NETSTAT_K_HTML[@]}
+                </table>
+                <table>
+                        <caption>$CAPTION_NETSTAT_I_HTML</caption>
+                        	${TH_NETSTAT_I_HTML[@]}
+                        	${TD_NETSTAT_I_HTML[@]}
+                </table>
+                <table>
+                        <caption>$CAPTION_NETSTAT_AIC_HTML</caption>
+                        	${TH_NETSTAT_AIC_HTML[@]}
+                        	${TD_NETSTAT_AIC_HTML[@]}
+                </table>
+                <p>$DT</p>
+        </div> 
+</body>
+</html>
+_EOF_
+fi
+
