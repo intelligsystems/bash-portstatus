@@ -1,10 +1,12 @@
 # bash-portstatus
 
-Network connection, status, open ports in Linux. 
+Network connection, status, open ports in Linux with HTML export
 
 	- kernel routing table
 	- kernel interface table
 	- internet connections
+
+# configuration
 
 ### Check files permisions
 
